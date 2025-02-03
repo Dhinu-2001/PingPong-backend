@@ -4,6 +4,18 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    # @classmethod
+    # def get_token(cls, user):
+    #     print('reached')
+    #     token = super().get_token(user)
+
+    #     # Add custom claims
+    #     token['username'] = user.username
+    #     token['email'] = user.email
+    #     # ...
+    #     print('token print',token)
+    #     return token
+
     def validate(self, attrs):
         print('reached')
         username = attrs.get("username")
@@ -17,10 +29,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # if user is None:
         #     print("Authentication failed!")  # ✅ Debug
         #     raise serializers.ValidationError({"error": "Invalid username or password"})
-        try:
-            data = super().validate(attrs)
-        except AuthenticationFailed:
-            raise AuthenticationFailed({"error": "Invalid username or password"})
+        # try:
+        #     data = super().validate(attrs)
+        # except AuthenticationFailed:
+        #     raise AuthenticationFailed({"error": "Invalid username or password"})
         data["user_id"] = self.user.id
         data["username"] = self.user.username
         data["email"] = self.user.email

@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,9 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_app',
+    'chat_app',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'channels',
 ]
 
 REST_FRAMEWORK = {
@@ -54,6 +57,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'django.contrib.auth.backends.ModelBackend',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
@@ -151,7 +155,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pingpong_backend.wsgi.application'
+ASGI_APPLICATION = 'pingpong_backend.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+# [(env('REDIS_HOST'), env('REDIS_PORT'))],
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
