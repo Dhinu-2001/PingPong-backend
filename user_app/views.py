@@ -140,6 +140,7 @@ class UserView(APIView):
     def get(self, request, user_id):
         try:
             current_user = request.user
+            print('current_user',current_user.username)
             user = CustomUser.objects.get(id=user_id)
             user_data = {"id":user.id, "username": user.username, "email": user.email, "profile_picture": user.profile_picture}
 
