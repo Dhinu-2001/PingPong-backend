@@ -30,8 +30,7 @@ SECRET_KEY = 'django-insecure-9_hacs)f%91_5ux_o2se@p4&26cu8ju+bi22b=!8i)cz&(czfe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost"])
 
 # Application definition
 
@@ -107,13 +106,18 @@ MIDDLEWARE = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-"http://localhost:5173",
-]
+# CORS_ALLOWED_ORIGINS = [
+# "http://localhost:5173",
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",  # Trusted origins for CSRF protection
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5173",  # Trusted origins for CSRF protection
+# ]
+
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=['http://localhost:5173'])
+
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=['http://localhost:5173'])
+
 
 CORS_ALLOW_METHODS = [
 'DELETE',
