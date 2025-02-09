@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
 from datetime import timedelta
 
+import environ
 env = environ.Env()
-
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_app',
     'chat_app',
+    'notification_app',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',

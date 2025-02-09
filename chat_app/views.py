@@ -7,7 +7,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny
 from user_app.models import CustomUser
 from .models import ChatRoom, Interests
-
+from notification_app.utils import send_user_notification
+from asgiref.sync import sync_to_async
 # Create your views here.
 
 
@@ -90,7 +91,7 @@ class InterestView(APIView):
         try:
             data = request.data
             print("data", data)
-
+            
             sender_id = CustomUser.objects.get(id=data.get("senderId"))
             receiverId = CustomUser.objects.get(id=data.get("receiverId"))
 
@@ -100,6 +101,14 @@ class InterestView(APIView):
                 recipient_id=receiverId,
                 status=data.get("status"),
             )
+            
+            # SENDING NOTIFICAITON
+            notification_message = f"{sender_id.username} sent you an interest request"
+            type = 'New Interest'
+            print('notification_message',notification_message)
+
+            send_user_notification(receiverId.id, notification_message, type, senderId=sender_id.id)    #NOT NEEDED
+        
             return Response(
                 {"message": "interest_created"}, status=status.HTTP_201_CREATED
             )
