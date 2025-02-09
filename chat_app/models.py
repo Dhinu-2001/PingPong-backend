@@ -5,8 +5,8 @@ from user_app.models import CustomUser
 
 class ChatRoom(models.Model):
     room_name = models.CharField(max_length=255, unique=True)
-    # user1 = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='room_user1')
-    # user2 = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='room_user2')
+    user1 = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='room_user1', null=True, blank=True)
+    user2 = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='room_user2', null=True, blank=True)
 
     def __str__(self):
         return self.room_name
